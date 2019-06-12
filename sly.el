@@ -1360,7 +1360,7 @@ Fall back to `sly-init-using-slynk-loader' if ASDF fails."
                    ,(sly-to-lisp-filename port-filename)))
                  (t
                   ,(read (sly-init-using-slynk-loader port-filename
-                                                      coding-system))))))
+                                                     coding-system))))))
 
 ;; XXX load-server & start-server used to be separated. maybe that was  better.
 (defun sly-init-using-slynk-loader (port-filename _coding-system)

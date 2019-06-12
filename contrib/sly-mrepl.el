@@ -860,10 +860,11 @@ arglist for the most recently enclosed macro or function."
   (cl-assert (process-live-p (sly-mrepl--process)) nil
              "No local live process, cannot use this REPL")
   (accept-process-output)
-  (cond ((and
-          (not sly-mrepl--read-mode)
-          (sly-mrepl--busy-p))
-         (sly-message "REPL is busy"))
+  (cond
+   ((and
+    (not sly-mrepl--read-mode)
+   (sly-mrepl--busy-p))
+   (sly-message "REPL is busy"))
         ((and (not sly-mrepl--read-mode)
               (or (sly-input-complete-p (sly-mrepl--mark) (point-max))
                   end-of-input))

@@ -16,7 +16,8 @@
            #:inspect-entry
            #:guess-and-set-package
            #:copy-to-repl
-           #:describe-entry))
+           #:describe-entry
+           #:*repl*))
 (in-package :slynk-mrepl)
 
 
@@ -48,6 +49,8 @@
 (defvar *history* nil)
 
 (defvar *saved-objects* nil)
+
+(defvar *repl* nil)
 
 (defmethod slynk::drop-unprocessed-events ((r mrepl))
   "Empty REPL of events, then send prompt to Emacs."
@@ -294,10 +297,11 @@ Set this to NIL to turn this feature off.")
          (mrepl-get-object-from-history entry-idx value-idx))))))
 
 (define-channel-method :process ((c mrepl) string)
-  (ecase (mrepl-mode c)
-    (:eval (mrepl-eval c string))
-    (:read (mrepl-read c string))
-    (:drop)))
+  (let ((*repl* c))
+    (ecase (mrepl-mode c)
+      (:eval (mrepl-eval c string))
+      (:read (mrepl-read c string))
+      (:drop))))
 
 (define-channel-method :teardown ((r mrepl))
   ;; FIXME: this should be a `:before' spec and closing the channel in
